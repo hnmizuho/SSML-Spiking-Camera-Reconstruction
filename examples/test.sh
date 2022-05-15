@@ -1,0 +1,12 @@
+python3 ../test.py \
+  --data ../../datazj/test \
+  --valid-dir ../../datazj/SpikeDataWithGT --valid-size 128 \
+  --load-ckpt ../../ckptsfin/fin4/best-lucky.pt \
+  --exper-id fin11 \
+  --seed 0 \
+  --crop-size 0 \
+  --show-output 12 \
+  --cuda \
+  --pingce 1 \
+  --subtask double \
+  --net zj

@@ -1,0 +1,20 @@
+python3 ../train.py \
+  --train-dir ../../datazj/Spk2ImgNet_train_bak --train-size 800 \
+  --valid-dir ../../datazj/SpikeDataWithGT --valid-size 128 \
+  --ckpt-save-path ../../ckptsfin \
+  --ckpt-overwrite 1 \
+  --report-interval 50 \
+  --nb-epochs 500 \
+  --loss l2 \
+  --exper-id world1 \
+  --crop-size 40 \
+  --learning-rate 3e-4 \
+  --plot-stats \
+  --cuda \
+  --batch-size 4 \
+  --use_resume 0 \
+  --resume ../../ckptsfly/omg12p12/best-lucky.pt \
+  --subtask double \
+  --bigdataset 0 \
+  --scheduler cos \
+  --net csy
