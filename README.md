@@ -4,3 +4,5 @@ The official implementation code of *Self-Supervised Mutual Learning for Dynamic
 `fin3g-best-lucky.pt` is for quick start. It consists of a BSN and an NBSN. No Deformable-conv is required.
 
 `fin9g-best-lucky.pt` is the full version model. 
+
+The test and training code for a more concise implementation version of SSML can be found in `./simple_ssml`.
