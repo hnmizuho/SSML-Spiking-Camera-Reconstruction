@@ -256,7 +256,7 @@ class Trainer(object):
                             loss = self.loss(bsn,tfp)
                         else:
                             nbsn,bsn,tfi,tfp = self.model(source)
-                            loss = 0.01*self.distill_loss(nbsn, bsn) + self.loss(bsn,tfi) #0.01-->1
+                            loss = 0.01*self.distill_loss(nbsn, bsn) + self.loss(bsn,tfi/0.6) #0.01-->1
 
                         source_denoised_nbsn = nbsn.clone()
                         source_denoised_bsn = bsn.clone()
@@ -271,8 +271,8 @@ class Trainer(object):
                         gt = gt.cpu()
                         source_denoised_nbsn = source_denoised_nbsn.cpu()
                         source_denoised_bsn = source_denoised_bsn.cpu()
-                        psnr_meter_nbsn.update(psnr(source_denoised_nbsn[i], gt[i][2].unsqueeze_(dim=0)).item())
-                        psnr_meter_bsn.update(psnr(source_denoised_bsn[i], gt[i][2].unsqueeze_(dim=0)).item())
+                        psnr_meter_nbsn.update(psnr(source_denoised_nbsn[i], gt[i]).item())
+                        psnr_meter_bsn.update(psnr(source_denoised_bsn[i], gt[i]).item())
 
         valid_loss = loss_meter.avg
         valid_time = time_elapsed_since(valid_start)[0]
@@ -329,7 +329,7 @@ class Trainer(object):
                             loss = self.loss(bsn,tfp)
                         else:
 #                             loss = self.loss(bsn,tfp)
-                            loss = 0.01*self.distill_loss(nbsn, bsn) + self.loss(bsn,tfi) #0.01-->1
+                            loss = 0.01*self.distill_loss(nbsn, bsn) + self.loss(bsn,tfi/0.6) #0.01-->1
                 loss_meter.update(loss.item())
             
                 # Zero gradients, perform a backward pass, and update the weights
