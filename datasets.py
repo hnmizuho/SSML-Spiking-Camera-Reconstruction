@@ -114,19 +114,22 @@ class SpikeDataset(AbstractDataset):
 #             tfi.append(tmp2)
         tfi = torch.stack(tfi,dim=0) #5 1 250 400        
         
-        gt = copy.deepcopy(tfi)
+        gt_path = os.path.join(self.root_dir, self.imgs_pair1[index]).replace("spike","GT").replace(".dat",".png")
+        gt = Image.open(gt_path).convert('L')
+        gt = transforms.ToTensor()(gt).unsqueeze(0)
+
             
         if self.crop_size != 0:
-            tmp = torch.cat([spk,tfi,gt])#41+5+5 1 250 400
-            tmp = self._random_crop(tmp)#51 1 250 400
-            tmp = torch.stack(tmp,dim=0)#51 1 40 40
-            tmp = tmp.squeeze_(1).numpy()       #51 40 40    
+            tmp = torch.cat([spk,tfi,gt])#41+5+1 1 250 400
+            tmp = self._random_crop(tmp)#47 1 250 400
+            tmp = torch.stack(tmp,dim=0)#47 1 40 40
+            tmp = tmp.squeeze_(1).numpy()       #47 40 40    
             mode = np.random.choice([0,1,2,3,4,5,6,7],1,replace=False)  
             tmp = data_augmentation(tmp,mode)
-            tmp = torch.from_numpy(tmp.copy()) #51 40 40    
+            tmp = torch.from_numpy(tmp.copy()) #47 40 40    
             spk = tmp[:41]
             tfi = tmp[41:41+5]
-            gt  = tmp[41+5:41+5+5]
+            gt  = tmp[41+5:41+5+1]
         else:
             spk = spk.squeeze_(dim=1) #20 1 250 400 --> 20 250 400
             tfi = tfi.squeeze_(dim=1)
