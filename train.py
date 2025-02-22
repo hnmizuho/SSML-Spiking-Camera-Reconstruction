@@ -67,7 +67,7 @@ if __name__ == '__main__':
     
     # Train/valid datasets
     train_loader = load_dataset(params.train_dir, params.train_size, params, params.crop_size, shuffled=True)
-    valid_loader = load_dataset(params.valid_dir, params.valid_size, params, params.crop_size, shuffled=False) 
+    valid_loader = load_dataset(params.valid_dir, params.valid_size, params, 0, shuffled=False) 
 
     # Initialize model and train
     trainer = Trainer(params, trainable=True)
