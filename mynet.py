@@ -373,8 +373,8 @@ class DoubleNet(nn.Module):
     
     def forward(self, x):  
         out1,tfi,tfp = self.nbsn(x)
-        out2=out1
-#         out2,_,_= self.bsn(x) #生成视频时不要这一句，快五六倍
+        # out2=out1
+        out2,_,_= self.bsn(x)
         
         return out1,out2,tfi,tfp
 
