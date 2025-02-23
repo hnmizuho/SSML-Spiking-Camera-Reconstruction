@@ -253,13 +253,15 @@ class Trainer(object):
                     if self.p.subtask == "double":
                         if self.p.crop_size==0:
                             nbsn,bsn,tfi,tfp = self.model(source)
-                            loss = self.loss(bsn,tfp)
+                            loss = self.loss(bsn,tfp/0.6)
                         else:
                             nbsn,bsn,tfi,tfp = self.model(source)
-                            loss = 0.01*self.distill_loss(nbsn, bsn) + self.loss(bsn,tfi/0.6) #0.01-->1
+                            loss = 0.01*self.distill_loss(nbsn, bsn) + self.loss(bsn,tfp/0.6) #0.01-->1
 
                         source_denoised_nbsn = nbsn.clone()
                         source_denoised_bsn = bsn.clone()
+                        source_denoised_nbsn = torch.clamp(source_denoised_nbsn,0,1)
+                        source_denoised_bsn = torch.clamp(source_denoised_bsn,0,1)
                         print(source_denoised_nbsn.shape)
     
             loss_meter.update(loss.item())
@@ -329,7 +331,9 @@ class Trainer(object):
                             loss = self.loss(bsn,tfp)
                         else:
 #                             loss = self.loss(bsn,tfp)
-                            loss = 0.01*self.distill_loss(nbsn, bsn) + self.loss(bsn,tfi/0.6) #0.01-->1
+                            bsn = torch.clamp(bsn,0,1)
+                            nbsn = torch.clamp(nbsn,0,1)
+                            loss = 0.01*self.distill_loss(nbsn, bsn) + self.loss(bsn,tfp/0.6) #0.01-->1
                 loss_meter.update(loss.item())
             
                 # Zero gradients, perform a backward pass, and update the weights
